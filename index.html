@@ -1,625 +1,1136 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Watch Wrist - Luxury Timepieces & Accessories</title>
+  <meta name="description" content="Watch Wrist - Luxury timepieces, sunglasses, and stylish accessories." />
+  <meta property="og:title" content="Watch Wrist - Luxury Timepieces & Accessories" />
+  <meta property="og:description" content="Watch Wrist - Luxury timepieces, sunglasses, and stylish accessories." />
 
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-         crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-      <link rel="stylesheet" href="style.css" />
-      <title>Watch Wrist</title>
-   </head>
+  <!-- Main Design Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-   <body>
-  <header class="header" id="header">
-        <div class="header-container">
-            <div class="header-section-one" id="headerSectionOne">
-                <h1 class="header-so-title">GET UP TO 50% OFF LIMITED TIME
-<a href="">SHOP NOW</a>
+  <!-- 1. Top Announcement Bar -->
+  <aside class="announcement-bar" id="announcementBar">
+    <div class="announcement-content">
+      <div class="announcement-text">
+        <i class="fa-solid fa-crown" style="color: var(--accent-gold);"></i>
+        <span>Complimentary Insured Worldwide Express Shipping on All Orders</span>
+        <span aria-hidden="true">·</span>
+        <strong>5-Year International Warranty</strong>
+      </div>
+      <div class="announcement-timer">
+        <span>Limited Offer Closes In:</span>
+        <span class="timer-badge" id="countdown">14d 18h 22m 45s</span>
+      </div>
+    </div>
+  </aside>
 
-                </h1>
-                <div id="header-so-timer">
-                    <h1 id="countdown"></h1>
-                    <span id="message"></span>
+  <!-- 2. Sticky Header (Top Bar Contract: Zone 1 Wordmark, Zone 2 Nav, Zone 3 Actions) -->
+  <header class="site-header" id="siteHeader">
+    <nav class="navbar">
+      <!-- Zone 1: Single Text Element Brand Wordmark -->
+      <a href="#" class="brand-mark">
+        <span class="brand-title">CHRONO<span>·</span>ATELIER</span>
+        <span class="brand-subtitle">Haute Horlogerie & Accessories</span>
+      </a>
+
+      <!-- Zone 2: Clean Text Navigation Links -->
+      <ul class="nav-menu">
+        <li><a href="#timepieces" class="nav-link active">Timepieces</a></li>
+        <li><a href="#curated" class="nav-link">Collections</a></li>
+        <li><a href="#spotlight" class="nav-link">Spotlight</a></li>
+        <li><a href="#compare" class="nav-link">Compare</a></li>
+        <li><a href="#craftsmanship" class="nav-link">Craftsmanship</a></li>
+        <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+      </ul>
+
+      <!-- Zone 3: Primary Actions -->
+      <div class="nav-actions">
+        <button class="nav-action-btn" id="btnOpenSearch" title="Search catalog" aria-label="Search catalog">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button class="nav-action-btn" id="btnWishlist" title="Saved items" aria-label="Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="cart-count-badge" id="wishlistCount" style="display:none;">0</span>
+        </button>
+        <button class="cart-pill-btn" id="btnOpenCart" aria-label="Shopping Bag">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span>Bag</span>
+          <span class="tabular-nums" id="cartBadgeCount">(0)</span>
+        </button>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 3. Hero Section (Enhanced Dual-Focal Showcase) -->
+    <section class="hero-section" id="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-bg-ring" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left Column: Narrative, Model Switcher & Telemetry -->
+          <div class="hero-content">
+            <span class="hero-kicker">Geneva Haute Horlogerie · Limited Series</span>
+            <h1 class="hero-title">Crafted for <em>Eternity.</em></h1>
+            <p class="hero-description" id="heroDesc">
+              Engineered with aerospace-grade titanium, hand-finished sapphire crystals, and Swiss-inspired automatic calibres. Defined by uncompromising horological precision.
+            </p>
+
+            <!-- Interactive Model Switcher Tabs -->
+            <div class="hero-model-switcher" id="heroModelSwitcher">
+              <button class="hero-model-btn active" data-model="watch-01">
+                <span class="btn-num">01</span> Chronotrigger 42mm
+              </button>
+              <button class="hero-model-btn" data-model="watch-02">
+                <span class="btn-num">02</span> Prestige Horizons
+              </button>
+              <button class="hero-model-btn" data-model="watch-03">
+                <span class="btn-num">03</span> Dynachrono Aurum
+              </button>
+            </div>
+
+            <!-- Micro-Telemetry Precision Specifications -->
+            <div class="hero-telemetry-bar">
+              <div class="hero-telemetry-item">
+                <span class="hero-telemetry-label">Frequency</span>
+                <span class="hero-telemetry-val tabular-nums" id="heroTelemFreq">28,800 VPH</span>
+              </div>
+              <div class="hero-telemetry-item">
+                <span class="hero-telemetry-label">Power Reserve</span>
+                <span class="hero-telemetry-val tabular-nums gold" id="heroTelemReserve">72 Hours</span>
+              </div>
+              <div class="hero-telemetry-item">
+                <span class="hero-telemetry-label">Water Resistance</span>
+                <span class="hero-telemetry-val tabular-nums" id="heroTelemWR">100 Metres</span>
+              </div>
+              <div class="hero-telemetry-item">
+                <span class="hero-telemetry-label">Certification</span>
+                <span class="hero-telemetry-val" id="heroTelemCert">COSC -2/+2s</span>
+              </div>
+            </div>
+
+            <!-- Interactive Primary Action Cluster -->
+            <div class="hero-cta-group">
+              <button class="btn-primary" id="heroBuyBtn" onclick="addCurrentHeroToCart()">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>Add to Bag — <span id="heroPriceText" class="tabular-nums">$649.99</span></span>
+              </button>
+              <button class="btn-secondary" id="heroInspectBtn" onclick="inspectCurrentHeroWatch()">
+                <i class="fa-solid fa-cube"></i>
+                <span>Technical Inspection</span>
+              </button>
+              <a href="#craftsmanship" class="btn-secondary" style="border-color: rgba(255,255,255,0.08);">
+                <i class="fa-solid fa-play" style="font-size: 0.75rem;"></i>
+                <span>Film</span>
+              </a>
+            </div>
+
+            <!-- Trust Markers -->
+            <div class="hero-trust-bar">
+              <div class="hero-trust-item">
+                <i class="fa-solid fa-certificate"></i>
+                <span>Swiss Certified Chronometer</span>
+              </div>
+              <div class="hero-trust-item">
+                <i class="fa-solid fa-gem"></i>
+                <span>Anti-Glare Sapphire Crystal</span>
+              </div>
+              <div class="hero-trust-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>5-Year Atelier Warranty</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive 3D Watch Showcase Stage with Hotspots -->
+          <div class="hero-showcase-stage">
+            <div class="hero-stage-halo"></div>
+
+            <div class="hero-watch-display-card" id="heroWatchDisplayCard">
+              <!-- Floating Certified Badges -->
+              <div class="hero-floating-badge top-right">
+                <i class="fa-solid fa-certificate"></i>
+                <span>COSC Chronometer Certified</span>
+              </div>
+              <div class="hero-floating-badge bottom-left">
+                <i class="fa-solid fa-gears"></i>
+                <span id="heroCalibreBadge">Calibre 4130 Flyback</span>
+              </div>
+
+              <!-- Centerpiece Watch Photo -->
+              <img src="./WATCHES/product-14.png" alt="Featured Chronotrigger Timepiece" class="hero-main-watch-img" id="heroMainWatchImg" onclick="inspectCurrentHeroWatch()" />
+
+              <!-- Interactive Hotspot Pins -->
+              <div class="hero-hotspot spot-1" tabindex="0" title="Click to view bezel specification">
+                <i class="fa-solid fa-plus"></i>
+                <div class="hero-hotspot-tooltip">
+                  <h5 id="hotspot1Title">Ceramic Tachymeter</h5>
+                  <p id="hotspot1Desc">Laser-engraved bezel measuring speed up to 400 km/h with diamond-honed precision.</p>
                 </div>
+              </div>
+
+              <div class="hero-hotspot spot-2" tabindex="0" title="Click to view dial specification">
+                <i class="fa-solid fa-plus"></i>
+                <div class="hero-hotspot-tooltip">
+                  <h5 id="hotspot2Title">Sunray Dial & Lume</h5>
+                  <p id="hotspot2Desc">Swiss SuperLuminova BGW9 emission with 8-hour continuous luminescence.</p>
+                </div>
+              </div>
+
+              <div class="hero-hotspot spot-3" tabindex="0" title="Click to view crown specification">
+                <i class="fa-solid fa-plus"></i>
+                <div class="hero-hotspot-tooltip">
+                  <h5 id="hotspot3Title">Triple-Lock Crown</h5>
+                  <p id="hotspot3Desc">Surgical 316L screw-down crown with dual helium safety gaskets rated to 10 ATM.</p>
+                </div>
+              </div>
             </div>
-            <nav class="navbar-container" id="navbarContainer">
-                <ul class="navbar-unorder-list">
-                    <li class="navbar-list">
-                        <a href="#" class="navbar-link">HOME</a>
-                        <a href="#" class="navbar-link">SHOP</a>
-                        <a href="#" class="navbar-link">ABOUT</a>
-                        <a href="#" class="navbar-link">NEWS</a>
-                        <a href="#" class="navbar-link">CONTACT</a>
-                    </li>
-                    <a href="#" class="navbar-home-link">BANBAN</a>
-                    <span class="navbar-list-icons">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <i class="fa-regular fa-user"></i>
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </span>
-                </ul>
-            </nav>
+          </div>
         </div>
-    </header>
+      </div>
+    </section>
 
-      <main>
-         <div class="main-container">
-            <div class="main-section">
-               <section class="main-section-one">
-                  <article class="mso-article">
-                     <h1 class="mso-title">Timeless.</h1>
-                     <p class="mso-description">
-                        A WordPress theme designed to elevate your online accessory store with an
-                        aura of elegance and luxury.
-                     </p>
-                     <button>SHOP PRODUCTS</button>
-                  </article>
-               </section>
-               <div class="watchlist-container">
-                  <section class="watch-section">
-                     <button id="prev"><i class="fa-solid fa-angle-left"></i></button>
-                     <div class="watch-slider">
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-14.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>CHRONOTRIGGER</h1>
-                              <p>$649.99</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-13.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>PRESTIGEHORIZONS</h1>
-                              <p>$719.49</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-11.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>DYNACHRONO</h1>
-                              <p>$659.89</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-10.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>DYNACHRONO</h1>
-                              <p>$599.75</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-09.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>SMARTSYNC</h1>
-                              <p>$739.20</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-08.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>DIGITALEDGE</h3>
-                                 <p>$689.55</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-07.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>APEXGUARD</h1>
-                              <p>$579.90</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                        <article class="watch-article">
-                           <img src="./WATCHES/product-04.png" alt="watchwrist" />
-                           <span class="watch-span">
-                              <h1>AEROSPORT</h1>
-                              <p>$629.30</p>
-                           </span>
-                           <button>VIEW PRODUCT</button>
-                        </article>
-                     </div>
-                     <button id="next"><i class="fa-solid fa-angle-right"></i></i></button>
-                  </section>
-               </div>
+    <!-- 4. Infinite Marquee Ribbon -->
+    <section class="marquee-ribbon" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-item"><span class="gold">HAUTE HORLOGERIE</span> <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item">SWISS AUTOMATIC CALIBRES <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item"><span class="gold">AEROSPACE GRADE TITANIUM</span> <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item">HAND-FINISHED SAPPHIRE <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item"><span class="gold">LIMITED SERIAL NUMBER RUN</span> <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item">COMPLIMENTARY WORLDWIDE EXPRESS <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item"><span class="gold">HAUTE HORLOGERIE</span> <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item">SWISS AUTOMATIC CALIBRES <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item"><span class="gold">AEROSPACE GRADE TITANIUM</span> <i class="fa-solid fa-diamond"></i></div>
+        <div class="marquee-item">HAND-FINISHED SAPPHIRE <i class="fa-solid fa-diamond"></i></div>
+      </div>
+    </section>
 
-               <article class="watch-shopnew-container">
-                  <div class="watch-shopnew-carousel-container">
-                     <span class="watch-shopnew-title-slider">
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                     </span>
+    <!-- 5. Timepiece Masterpieces & Interactive Filter Slider -->
+    <section class="section section-dark" id="timepieces">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-header-left">
+            <span class="section-subtitle">Flagship Catalog</span>
+            <h2 class="section-title">The Timepiece Gallery</h2>
+            <p class="section-desc">Each chronograph is meticulously assembled by master watchmakers and tested through 500 hours of chronometric validation.</p>
+          </div>
+          <div class="slider-nav-btns">
+            <button class="slider-nav-btn" id="sliderPrev" aria-label="Previous slide">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button class="slider-nav-btn" id="sliderNext" aria-label="Next slide">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Segmented Tabs -->
+        <div class="filter-tabs-wrapper">
+          <button class="filter-tab active" data-filter="all">All Masterpieces (8)</button>
+          <button class="filter-tab" data-filter="chronograph">Chronographs</button>
+          <button class="filter-tab" data-filter="automatic">Automatic Calibre</button>
+          <button class="filter-tab" data-filter="diver">Diver & Sports</button>
+          <button class="filter-tab" data-filter="hybrid">Hybrid & Smart</button>
+        </div>
+
+        <!-- Timepiece Slider -->
+        <div class="slider-container-rel">
+          <div class="slider-track" id="sliderTrack">
+            <!-- Product Card 1 -->
+            <article class="product-card" data-category="chronograph" data-id="watch-01">
+              <span class="product-card-badge"><i class="fa-solid fa-fire"></i> Best Seller</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-01', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-01')">
+                <img src="./WATCHES/product-14.png" alt="Chronotrigger 42mm Automatic" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">Flyback Chronograph</span>
+                <h3 class="product-card-title">Chronotrigger 42mm</h3>
+                <div class="product-card-specs">
+                  <span>Calibre 4130</span>
+                  <span class="sep">·</span>
+                  <span>100m WR</span>
+                  <span class="sep">·</span>
+                  <span>Sapphire</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$649.99</span>
+                    <span class="product-price-old tabular-nums">$750.00</span>
                   </div>
-                  <section class="watch-shopnew-arrivals">
-                     <span class="watch-shopenew-arriavals-article"></span>
-                     <span class="watch-shopenew-arriavals-article">
-                        <h1>Elegant Eyewear.</h1>
-                        <p>Check out our collection of stylish shades.</p>
-                        <button>VIEW SUNGLASSES</button>
-                     </span>
-                  </section>
-               </article>
-               <div class="watch-stylish-container">
-                  <section class="watch-stylish-header">
-                     <img src="./WATCHES/watch-icon.png" alt="watchwrist" />
-                     <h1>Stylish. Functional. Quality.</h1>
-                     <p>Our goal is to provide products that stand the test of time.</p>
-                  </section>
-                  <div class="watch-stylish-section">
-                     <article class="watch-stylish-article">
-                        <img
-                           src="./WATCHES/damcreativ_Hyper-realistic_sales_image_of_a_ruggedly_handsome_m_ae369586-b022-4a0c-bdff-e92f71023302.png"
-                           alt="watchwrist" />
-                        <span class="watch-stylish-span">
-                           <h2>SUNGLASSES</h2>
-                           <button>VIEW COLLECTION</button>
-                        </span>
-                     </article>
-                     <section class="watch-stylish-articles-section">
-                        <article class="ws-stylish-article">
-                           <img
-                              src="./WATCHES/damcreativ_Hyper-realistic_close-up_image_of_a_luxurious_watch__1ca3fe41-7d5f-4dcb-ae44-f4f35bc1c483-1280x731.png"
-                              alt="watchwrist" />
-                           <span class="watch-stylish-span">
-                              <h2>WATCHES</h2>
-                              <button>VIEW COLLECTION</button>
-                           </span>
-                        </article>
-                        <article class="ws-stylish-article">
-                           <img src="./WATCHES/Wrist.png" alt="watchwrist" />
-                           <span class="watch-stylish-span">
-                              <h2>WATCHES</h2>
-                              <button>VIEW COLLECTION</button>
-                           </span>
-                        </article>
-                     </section>
-
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-01')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-01')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
                   </div>
-                  <div class="watch-shopnew-carousel-container">
-                     <span class="watch-shopnew-title-slider">
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                        <h1>SHOP NEW ARRIVALS</h1>
-                     </span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Product Card 2 -->
+            <article class="product-card" data-category="automatic" data-id="watch-02">
+              <span class="product-card-badge"><i class="fa-solid fa-award"></i> Signature</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-02', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-02')">
+                <img src="./WATCHES/product-13.png" alt="Prestige Horizons Leather" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">Classic Dress Calibre</span>
+                <h3 class="product-card-title">Prestige Horizons</h3>
+                <div class="product-card-specs">
+                  <span>Italian Leather</span>
+                  <span class="sep">·</span>
+                  <span>72h Reserve</span>
+                  <span class="sep">·</span>
+                  <span>41mm</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$719.49</span>
                   </div>
-                  <div class="watch-topseller-container">
-                     <span class="watch-topseller-header">
-                        <p>TOP SELLERS</p>
-                        <h1>Trending Styles</h1>
-                        <p>Check out our collection of the most popular watches.</p>
-                     </span>
-                     <section class="watch-topseller-watches">
-                        <span class="watch-topseller-span">
-                           <img src="./WATCHES/product-13.png" alt="watchwrist" />
-                           <h1>CHRONOTRIGGER</h1>
-                           <p>$649.99</p>
-                           <button>ADD TO CART</button>
-                        </span>
-                        <span class="watch-topseller-span">
-                           <img src="./WATCHES/product-04.png" alt="watchwrist" />
-                           <h1>CHRONOTRIGGER</h1>
-                           <p>$649.99</p>
-                           <button>ADD TO CART</button>
-                        </span>
-                        <span class="watch-topseller-span">
-                           <img
-                              src="./WATCHES/damcreativ_Hyper_realistic_image_of_a_mans_stylish_bracelet_per_cadc1f19-ada4-4738-b821-05362eff42b6-768x768.png"
-                              alt="watchwrist" />
-                           <h1>CHRONOTRIGGER</h1>
-                           <p>$649.99</p>
-                           <button>ADD TO CART</button>
-                        </span>
-                        <span class="watch-topseller-span">
-                           <img src="./WATCHES/product-14.png" alt="watchwrist" />
-                           <h1>CHRONOTRIGGER</h1>
-                           <p>$649.99</p>
-                           <button>ADD TO CART</button>
-                        </span>
-                     </section>
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-02')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-02')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
                   </div>
-               </div>
-               <div class="watch-video-background-cotainer">
-                  <div class="watch-video-background">
-                     <video autoplay muted loop>
-                        <source src="./WATCHES/pexels-vlada-karpovich-4452751-1920x1080-25fps.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                     </video>
+                </div>
+              </div>
+            </article>
+
+            <!-- Product Card 3 -->
+            <article class="product-card" data-category="chronograph" data-id="watch-03">
+              <span class="product-card-badge">Limited 500 Pcs</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-03', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-03')">
+                <img src="./WATCHES/product-11.png" alt="Dynachrono Gold Edition" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">18K Champagne Accent</span>
+                <h3 class="product-card-title">Dynachrono Aurum</h3>
+                <div class="product-card-specs">
+                  <span>Sunray Dial</span>
+                  <span class="sep">·</span>
+                  <span>Double AR</span>
+                  <span class="sep">·</span>
+                  <span>43mm</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$659.89</span>
                   </div>
-
-                  <div class="watch-video-content">
-                     <h1>Materials.</h1>
-                     <p>Crafted from premium, hand-selected leather,
-                        our products exude timeless elegance and showcase the impeccable quality that is synonymous with
-                        our brand.</p>
-                     <button>ABOUT US</button>
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-03')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-03')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
                   </div>
-               </div>
-               <div class="product-of-the-week">
-                  <!-- Container 1: Text Content -->
-                  <div class="product-text-container">
-                     <p>HAND-PICKED</p>
-                     <h1>Product Of The Week</h1>
-                     <p>
-                        Experience the pinnacle of eyewear innovation with Flare Glaciers. These sunglasses are
-                        meticulously crafted to elevate your style while providing unmatched visual clarity.
-                     </p>
-                     <a href="#" class="view-product-link">
-                        View Product
-                        <i class="fa-solid fa-arrow-right-long"></i>
-                     </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Product Card 4 -->
+            <article class="product-card" data-category="automatic" data-id="watch-04">
+              <span class="product-card-badge">Stealth Slate</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-04', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-04')">
+                <img src="./WATCHES/product-10.png" alt="Dynachrono Stealth Slate" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">DLC Coated Titanium</span>
+                <h3 class="product-card-title">Dynachrono Slate</h3>
+                <div class="product-card-specs">
+                  <span>Exhibition Back</span>
+                  <span class="sep">·</span>
+                  <span>Lumibrite</span>
+                  <span class="sep">·</span>
+                  <span>42mm</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$599.75</span>
                   </div>
-
-                  <!-- Container 2: Image and Details -->
-                  <div class="product-image-container">
-                     <div class="product-image-section">
-                        <img src="./WATCHES/product-glasses-01-520x520.png" alt="Flare Glaciers">
-                        <div class="product-details">
-                           <p>₱149.00</p>
-                           <h1>FLARE GLACIERS</h1>
-                        </div>
-                     </div>
-
-                     <span class="product-buttons">
-                        <button>ADD TO CART</button>
-                        <button>VIEW PRODUCT</button>
-                     </span>
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-04')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-04')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
                   </div>
-               </div>
-               <div class="newsletter-container">
-                  <section class="newsletter-article-section">
-                     <p>STAY UPDATE</p>
-                     <h1>Newsletter.</h1>
-                     <p>By subscribing to our newsletter, you gain exclusive access to the latest updates on new
-                        arrivals, limited-edition releases, and special promotions.</p>
-                  </section>
-                  <section class="newsletter-form-section">
-                     <form class="newsletter-form">
-                        <div class="newsletter-input-group">
-                           <input type="text" id="name" required>
-                           <label for="name" class="newsletter-label-name">
-                              NAME <span>(required)</span>
-                           </label>
-                        </div>
-                        <div class="newsletter-input-group">
-                           <input type="text" id="email" required>
-                           <label for="text" class="newsletter-label-name">
-                              EMAIL <span>(required)</span>
-                           </label>
-                        </div>
-                        <button type="submit" class="newsletter-submit-btn">Subscribe</button>
-                     </form>
-                  </section>
+                </div>
+              </div>
+            </article>
 
-               </div>
-               <div class="watch-shopnew-carousel-container">
-                  <span class="watch-shopnew-title-slider">
-                     <h1>SIGN-UP FOR FREE GIFT</h1>
-                     <h1>SIGN-UP FOR FREE GIFT</h1>
-                     <h1>SIGN-UP FOR FREE GIFT</h1>
-                     <h1>SIGN-UP FOR FREE GIFT</h1>
-                     <h1>SIGN-UP FOR FREE GIFT</h1>
-                     <h1>SIGN-UP FOR FREE GIFT</h1>
-                  </span>
-               </div>
-               <div class="comparison-container">
-                  <div class="comparison-text">
-                     <h6>Compare</h6>
-                     <h2>Which Is The Better Choice?</h2>
-                     <p>Both timepieces offer exceptional craftsmanship and attention to detail. The choice is yours.
-                     </p>
-                     <button>Shop More</button>
+            <!-- Product Card 5 -->
+            <article class="product-card" data-category="hybrid" data-id="watch-05">
+              <span class="product-card-badge">Smart Precision</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-05', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-05')">
+                <img src="./WATCHES/product-09.png" alt="SmartSync Titanium Hybrid" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">Biometric Chrono</span>
+                <h3 class="product-card-title">SmartSync Titanium</h3>
+                <div class="product-card-specs">
+                  <span>30-Day Battery</span>
+                  <span class="sep">·</span>
+                  <span>OLED Bezel</span>
+                  <span class="sep">·</span>
+                  <span>44mm</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$739.20</span>
                   </div>
-                  <div class="comparison-cards">
-                     <div class="comparison-cards-container">
-                        <span class="comparison-cards-container-span">
-                           <p>Battery</p>
-                           <p>Weight</p>
-                           <p>Strap</p>
-                        </span>
-                        <section class="comparison-section">
-                           <div class="product-card">
-                              <section class="product-card-span">
-                                 <span>
-
-                                    <img src="./WATCHES/product-14.png" alt="DigitalEdge">
-                                    <h2>DigitalEdge</h2>
-                                    <p>$489.00</p>
-                                    <button>Add to Cart</button>
-                                 </span>
-                              </section>
-
-                              <span class="comparison-cards-container-span">
-                                 <p>72hrs</p>
-                                 <p>190g</p>
-                                 <p>Synthetic</p>
-                              </span>
-                           </div>
-                           <div class="product-card">
-                              <section class="product-card-span">
-                                 <span>
-
-                                    <img src="./WATCHES/product-13.png" alt="SmartSync">
-                                    <h2>SmartSync</h2>
-                                    <p>$289.00</p>
-                                    <button>Add to Cart</button>
-                                 </span>
-                              </section>
-                              <span class="comparison-cards-container-span">
-                                 <p>60hrs</p>
-                                 <p>145g</p>
-                                 <p>Leather</p>
-                              </span>
-                           </div>
-                        </section>
-                     </div>
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-05')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-05')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
                   </div>
-               </div>
-               <div class="latest-news-section-container">
-                  <section class="latest-news-header">
-                     <p>Latest News</p>
-                     <h1>From The Blog</h1>
-                  </section>
-                  <section class="latest-news-section-article">
-                     <article class="latest-news-article">
-                        <img src="./WATCHES/banner-13-768x439.jpg" alt="watchwrist" />
-                        <span class="latest-news-article-span">
-                           <p><a href="#">Blog</a> | <a href="#">Watches</a></p>
-                           <h1>Sports Watches: Functionality and Style for the Active Gentleman</h1>
-                           <button>READ MORE</button>
-                        </span>
+                </div>
+              </div>
+            </article>
 
-                     </article>
-                     <article class="latest-news-article">
-                        <img src="./WATCHES/banner-12-768x439.jpg" alt="watchwrist" />
-                        <span class="latest-news-article-span">
-                           <p><a href="#">Blog</a> | <a href="#">Watches</a></p>
-                           <h1>The Power of Sunglasses: Finding the Ideal Shades for Your Face Shape</h1>
-                           <button>READ MORE</button>
-                        </span>
-
-                     </article>
-                     <article class="latest-news-article">
-                        <img src="./WATCHES/Wrist.png" alt="watchwrist" />
-                        <span class="latest-news-article-span">
-                           <p><a href="#">Blog</a> | <a href="#">Watches</a></p>
-                           <h1>From Casual to Dapper: The Versatility of Men’s Bracelets</h1>
-                           <button>READ MORE</button>
-                        </span>
-                     </article>
-                  </section>
-                  <button class="latest-news-container-button">
-                     MORE FROM THE BLOG
-                  </button>
-               </div>
-               <div class="featured-the-blog-container">
-                  <section class="featured-the-blog-logo">
-                     <p>FEATURED ON</p>
-                     <span>
-                        <img src="./WATCHES/logo-01-1024x283.png" alt="watchwrist">
-                        <img src="./WATCHES/logo-02-1024x542.png" alt="watchwrist">
-                        <img src="./WATCHES/logo-03-1024x272.png" alt="watchwrist">
-                        <img src="./WATCHES/logo-04-1024x243.png" alt="watchwrist">
-                        <img src="./WATCHES/logo-05.png" alt="watchwrist">
-                     </span>
-                  </section>
-
-                  <div class="featured-the-blog-about-us">
-                     <section class="featured-the-blog-about-us-section">
-                        <h3>THE FOUNDERS</h>
-                           <h1>About Us</h1>
-                           <p>Meet Alex and Jason, two best friends who shared a passion for men’s fashion and
-                              accessories. With their combined expertise in e-commerce and their impeccable sense of
-                              style, they decided to embark on an entrepreneurial journey and founded
-                              <strong>Chrono</strong>.
-                           </p>
-                           <button>OUR STORY</button>
-                     </section>
+            <!-- Product Card 6 -->
+            <article class="product-card" data-category="chronograph" data-id="watch-06">
+              <span class="product-card-badge">Ceramic Matrix</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-06', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-06')">
+                <img src="./WATCHES/product-08.png" alt="DigitalEdge Ceramic" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">Zirconia Ceramic</span>
+                <h3 class="product-card-title">DigitalEdge Ceramic</h3>
+                <div class="product-card-specs">
+                  <span>Tachymeter</span>
+                  <span class="sep">·</span>
+                  <span>SuperLuminova</span>
+                  <span class="sep">·</span>
+                  <span>42.5mm</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$689.55</span>
                   </div>
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-06')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-06')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
 
-               </div>
-               <section class="watch-topseller-watches">
-                  <span class="service-section">
-                     <img src="./WATCHES/icon-delivery.png" alt="WatchWrist">
-                     <h1>EXPRESS DELIVERY</h1>
-                     <p>We’ll ship the order immediately after your purchase.</p>
-                  </span>
-                  <span class="service-section">
-                     <img src="./WATCHES/icon-return.png" alt="WatchWrist">
-                     <h1>FREE RETURNS</h1>
-                     <p>All returns are free within 30 days of your order.</p>
-                  </span>
-                  <span class="service-section">
-                     <img src="./WATCHES/icon-support.png" alt="WatchWrist">
-                     <h1>HELPFUL SUPPORT</h1>
-                     <p>Our support staff is ready 24/7 to answer any questions.</p>
-                  </span>
-                  <span class="service-section">
-                     <img src="./WATCHES/icon-card.png" alt="WatchWrist">
-                     <h1>SECURE PAYMENT</h1>
-                     <p>All payments on our site are processed securely.</p>
-                  </span>
-               </section>
-               <div class="testimonials-container">
-                  <section class="testimony-container">
-                     <h3>TESTIMONIALS</h3>
-                     <h1>Happy Customers</h1>
-                     <p>Don’t take it from us. Check out the glowing testimonials from our satisfied customers.</p>
-                  </section>
-                  <article class="testimony-carousel-container">
-                     <button class="carousel-btn prev-btn"><i class="fa-solid fa-angle-left"></i></button>
-                     <div class="carousel">
-                        <section class="testimony-section">
-                           <img src="./WATCHES/portrait-01.png" alt="">
-                           <span class="testimony-span">
-                              <p class="testimony-stars">
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                              </p>
-                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit obcaecati fuga
-                                 nihil eveniet consequuntur odio, fugit rerum sint impedit est laborum doloremque,
-                                 dignissimos magni, exercitationem doloribus libero inventore aliquam consequatur!</p>
-                              <a href="#">~ Jade Known As Ban Ban</a>
-                           </span>
-                        </section>
-                        <section class="testimony-section">
-                           <img src="./WATCHES/portrait-02.png" alt="">
-                           <span class="testimony-span">
-                              <p class="testimony-stars">
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                              </p>
-                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit obcaecati fuga
-                                 nihil eveniet consequuntur odio, fugit rerum sint impedit est laborum doloremque,
-                                 dignissimos magni, exercitationem doloribus libero inventore aliquam consequatur!</p>
-                              <a href="#">~ Chiyun Known Ban Ban</a>
-                           </span>
-                        </section>
-                        <section class="testimony-section">
-                           <img src="./WATCHES/portrait-03.png" alt="">
-                           <span class="testimony-span">
-                              <p class="testimony-stars">
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                              </p>
-                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit obcaecati fuga
-                                 nihil eveniet consequuntur odio, fugit rerum sint impedit est laborum doloremque,
-                                 dignissimos magni, exercitationem doloribus libero inventore aliquam consequatur!</p>
-                              <a href="#">~ Jade Known As Ban Ban</a>
-                           </span>
-                        </section>
-                        <section class="testimony-section">
-                           <img src="./WATCHES/portrait-04.png" alt="">
-                           <span class="testimony-span">
-                              <p class="testimony-stars">
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                                 <i class="fa-solid fa-star"></i>
-                              </p>
-                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit obcaecati fuga
-                                 nihil eveniet consequuntur odio, fugit rerum sint impedit est laborum doloremque,
-                                 dignissimos magni, exercitationem doloribus libero inventore aliquam consequatur!</p>
-                              <a href="#">~ CHAYIN Known As Ban Ban</a>
-                           </span>
-                        </section>
-                     </div>
-                     <button class="carousel-btn next-btn"><i class="fa-solid fa-angle-right"></i></button>
-                  </article>
-                  <footer class="footer">
-                     <div class="footer-container">
-                        <div class="footer-item">
-                           <p>About <strong>Chrono</strong></p>
-                           <ul>
-                              <li><a href="#">Block-Based Theme</a></li>
-                              <li><a href="#">Full Site Editing</a></li>
-                              <li><a href="#">Page Templates</a></li>
-                              <li><a href="#">Patterns</a></li>
-                              <li><a href="#">Pricing</a></li>
-                           </ul>
-                        </div>
+            <!-- Product Card 7 -->
+            <article class="product-card" data-category="diver" data-id="watch-07">
+              <span class="product-card-badge"><i class="fa-solid fa-water"></i> 300m Diver</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-07', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-07')">
+                <img src="./WATCHES/product-07.png" alt="ApexGuard Diver 300M" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">ISO 6425 Certified</span>
+                <h3 class="product-card-title">ApexGuard Diver</h3>
+                <div class="product-card-specs">
+                  <span>Helium Valve</span>
+                  <span class="sep">·</span>
+                  <span>Unidirectional</span>
+                  <span class="sep">·</span>
+                  <span>43mm</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$579.90</span>
+                  </div>
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-07')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-07')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
 
-                        <!-- Second Container -->
-                        <div class="footer-item">
-                           <h3>Organic Themes</h3>
-                           <ul>
-                              <li><a href="#">About Us</a></li>
-                              <li><a href="#">Contact</a></li>
-                              <li><a href="#">Products</a></li>
-                              <li><a href="#">Services</a></li>
-                              <li><a href="#">News</a></li>
-                           </ul>
-                        </div>
+            <!-- Product Card 8 -->
+            <article class="product-card" data-category="chronograph" data-id="watch-08">
+              <span class="product-card-badge">Aviator Heritage</span>
+              <button class="product-card-wishlist" title="Save to Wishlist" onclick="toggleWishlist('watch-08', this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+              <div class="product-image-wrap" onclick="openQuickView('watch-08')">
+                <img src="./WATCHES/product-04.png" alt="Aerosport Aviator Chronograph" loading="lazy" />
+              </div>
+              <div class="product-card-info">
+                <span class="product-card-kicker">Pilot Chronograph</span>
+                <h3 class="product-card-title">Aerosport Aviator</h3>
+                <div class="product-card-specs">
+                  <span>Slide Rule</span>
+                  <span class="sep">·</span>
+                  <span>Dual Timezone</span>
+                  <span class="sep">·</span>
+                  <span>41.5mm</span>
+                </div>
+                <div class="product-card-bottom">
+                  <div>
+                    <span class="product-price tabular-nums">$629.30</span>
+                  </div>
+                  <div class="product-card-actions">
+                    <button class="btn-card-quickview" title="Quick View" onclick="openQuickView('watch-08')">
+                      <i class="fa-regular fa-eye"></i>
+                    </button>
+                    <button class="btn-card-add" onclick="addToCart('watch-08')">
+                      <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                        <!-- Third Container -->
-                        <div class="footer-item">
-                           <h3>Organic Blocks</h3>
-                           <ul>
-                              <li><a href="#">Block Collection</a></li>
-                              <li><a href="#">Why Blocks?</a></li>
-                              <li><a href="#">ES5 Javascript</a></li>
-                              <li><a href="#">View Demos</a></li>
-                              <li><a href="#">Documentation</a></li>
-                           </ul>
-                        </div>
+    <!-- 6. Curated Editorial Bento Showcase -->
+    <section class="section section-secondary" id="curated">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-header-left">
+            <span class="section-subtitle">Curated Universes</span>
+            <h2 class="section-title">The Atelier Collections</h2>
+            <p class="section-desc">From micro-mechanical wonders to polarized optical eyewear and bespoke braided bracelets.</p>
+          </div>
+        </div>
 
-                        <!-- Fourth Container -->
-                        <div class="footer-item-four">
-                           <h3>Our Mission</h3>
-                           <p>Organic Themes humanizes products, brands, and processes. We take the complicated, and
-                              make it simple and accessible. Ultimately, our goal is to provide tools to empower people
-                              to build online business and free themselves from the chains of the corporate world.</p>
-                           <button class="footer-button"> Read Our Story</button>
-                        </div>
-
-                        <!-- Fifth Container -->
-                        <div class="footer-item-four">
-                           <h3>Contact Us</h3>
-                           <form class="newsletter-form">
-                              <div class="newsletter-input-group">
-                                 <input type="text" id="name" required>
-                                 <label for="name" class="newsletter-label-name">
-                                    NAME <span>(required)</span>
-                                 </label>
-                              </div>
-                              <div class="newsletter-input-group">
-                                 <input type="text" id="email" required>
-                                 <label for="text" class="newsletter-label-name">
-                                    EMAIL <span>(required)</span>
-                                 </label>
-                              </div>
-                              <button type="submit" class="newsletter-submit-btn">Subscribe</button>
-                           </form>
-                        </div>
-                     </div>
-                     <div class="footer-copyright">
-                        <span class="footer-copyright-span">
-                           <p>&copy; 2025Organic Themes</p>
-                           <p>Privacy Policy</p>
-                           <p>Terms of Service</p>
-                        </span>
-                        <button><a href="#header"><i class="fa-solid fa-arrow-up"></i></a></i>
-                        </button>
-                        <span>
-                           <button><i class="fa-brands fa-facebook"></i></button>
-                           <button><i class="fa-brands fa-twitter"></i></button>
-                           <button><i class="fa-brands fa-instagram"></i></button>
-                           <button><i class="fa-brands fa-youtube"></i></button>
-                        </span>
-                     </div>
-                  </footer>
-
-               </div>
-
+        <div class="editorial-bento-grid">
+          <!-- Bento 1: Watches Macro -->
+          <article class="bento-card" style="background-image: url('./WATCHES/damcreativ_Hyper-realistic_close-up_image_of_a_luxurious_watch__1ca3fe41-7d5f-4dcb-ae44-f4f35bc1c483-1280x731.png');">
+            <div class="bento-card-scrim"></div>
+            <div class="bento-card-content">
+              <span class="bento-card-tag">Precision Mechanicals</span>
+              <h3 class="bento-card-title">Haute Horlogerie Mastery</h3>
+              <p class="bento-card-desc">Every movement is decorated with Côtes de Genève stripes, blued screws, and perlage graining visible through anti-reflective sapphire exhibition backs.</p>
+              <a href="#timepieces" class="btn-primary">
+                <span>View Timepieces</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
             </div>
-         </div>
-      </main>
+          </article>
 
-      <script src="script.js"></script>
-   </body>
+          <!-- Bento 2: Eyewear -->
+          <article class="bento-card" style="background-image: url('./WATCHES/damcreativ_Hyper-realistic_sales_image_of_a_ruggedly_handsome_m_ae369586-b022-4a0c-bdff-e92f71023302.png');">
+            <div class="bento-card-scrim"></div>
+            <div class="bento-card-content">
+              <span class="bento-card-tag">Artisanal Shades</span>
+              <h3 class="bento-card-title">Polarized Flare Series</h3>
+              <p class="bento-card-desc">Sculpted from lightweight Japanese titanium and hand-beveled Italian acetate with 100% UVA/UVB optical protection.</p>
+              <a href="#spotlight" class="btn-secondary">
+                <span>Discover Eyewear</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
 
+        <div class="editorial-subgrid">
+          <!-- Bento 3: Bracelets -->
+          <article class="bento-card" style="background-image: url('./WATCHES/damcreativ_Hyper_realistic_image_of_a_mans_stylish_bracelet_per_cadc1f19-ada4-4738-b821-05362eff42b6-768x768.png'); min-height: 380px;">
+            <div class="bento-card-scrim"></div>
+            <div class="bento-card-content">
+              <span class="bento-card-tag">Wristwear Accents</span>
+              <h3 class="bento-card-title" style="font-size: 1.85rem;">Artisan Braided Leather</h3>
+              <p class="bento-card-desc">Hand-stitched Tuscan calfskin with magnetic 316L brushed steel clasps.</p>
+              <button class="btn-secondary" onclick="addToCart('bracelet-01')">Add to Bag — $145.00</button>
+            </div>
+          </article>
+
+          <!-- Bento 4: Steel Architecture -->
+          <article class="bento-card" style="background-image: url('./WATCHES/Wrist.png'); min-height: 380px;">
+            <div class="bento-card-scrim"></div>
+            <div class="bento-card-content">
+              <span class="bento-card-tag">Ergonomic Fit</span>
+              <h3 class="bento-card-title" style="font-size: 1.85rem;">Integrated Steel Bracelets</h3>
+              <p class="bento-card-desc">Featuring micro-adjustable butterfly clasps engineered for seamless all-day comfort.</p>
+              <a href="#timepieces" class="btn-secondary">Explore Metal Bands</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Product of the Week Spotlight (Flare Glaciers) -->
+    <section class="section section-dark" id="spotlight">
+      <div class="container">
+        <div class="spotlight-card">
+          <div class="spotlight-left">
+            <span class="spotlight-kicker">
+              <i class="fa-solid fa-sparkles"></i> Hand-Selected Piece of the Week
+            </span>
+            <h2 class="spotlight-title">Flare Glaciers Titanium Sunglasses</h2>
+            <p class="spotlight-desc">
+              Experience unparalleled optical definition. Built for intense alpine reflections and ocean glare, featuring scratch-resistant oleophobic mineral glass, micro-flex titanium hinges, and ergonomic bayonet temples.
+            </p>
+
+            <div class="spotlight-feature-list">
+              <div class="spotlight-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span>UV400 Polarized Mineral Lens</span>
+              </div>
+              <div class="spotlight-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span>Featherweight Grade-5 Titanium</span>
+              </div>
+              <div class="spotlight-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span>Hydrophobic Nano Coating</span>
+              </div>
+              <div class="spotlight-feature-item">
+                <i class="fa-solid fa-check"></i>
+                <span>Custom Leather Travel Case</span>
+              </div>
+            </div>
+
+            <div class="spotlight-pricing-row">
+              <span class="spotlight-price tabular-nums">$185.00</span>
+              <span style="color: var(--text-muted); font-size: 0.85rem;">Includes custom microfiber cloth & wooden case</span>
+            </div>
+
+            <div class="spotlight-actions">
+              <button class="btn-primary" onclick="addToCart('shades-01')">
+                <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+              </button>
+              <button class="btn-secondary" onclick="openQuickView('shades-01')">
+                <i class="fa-regular fa-eye"></i> Specifications
+              </button>
+            </div>
+          </div>
+
+          <div class="spotlight-right">
+            <img src="./WATCHES/product-glasses-01-520x520.png" alt="Flare Glaciers Titanium Sunglasses" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Interactive Comparison Module -->
+    <section class="section section-secondary" id="compare">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-header-left">
+            <span class="section-subtitle">Horological Precision</span>
+            <h2 class="section-title">Side-by-Side Comparison</h2>
+            <p class="section-desc">Direct technical breakdown between our flagship automatic mechanical and hybrid smart calibres.</p>
+          </div>
+        </div>
+
+        <div class="comparison-wrapper">
+          <div class="comparison-header-row">
+            <div>
+              <span style="font-size: 0.75rem; color: var(--accent-gold); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700;">SPECIFICATION</span>
+              <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin-top: 0.25rem;">Technical Data</h3>
+            </div>
+
+            <div class="compare-product-box">
+              <img src="./WATCHES/product-14.png" alt="Chronotrigger 42mm" />
+              <div class="compare-product-info">
+                <h4>Chronotrigger 42mm</h4>
+                <p>$649.99</p>
+                <button class="btn-card-add" style="margin-top: 0.4rem; padding: 0.35rem 0.75rem;" onclick="addToCart('watch-01')">Add to Bag</button>
+              </div>
+            </div>
+
+            <div class="compare-product-box">
+              <img src="./WATCHES/product-09.png" alt="SmartSync Titanium" />
+              <div class="compare-product-info">
+                <h4>SmartSync Titanium</h4>
+                <p>$739.20</p>
+                <button class="btn-card-add" style="margin-top: 0.4rem; padding: 0.35rem 0.75rem;" onclick="addToCart('watch-05')">Add to Bag</button>
+              </div>
+            </div>
+          </div>
+
+          <table class="comparison-table">
+            <tbody>
+              <tr>
+                <td class="label-col">Calibre Movement</td>
+                <td class="val-col gold">Automatic Calibre 4130 (28,800 vph)</td>
+                <td class="val-col">Hybrid Quartz + Biometric Digital Module</td>
+              </tr>
+              <tr>
+                <td class="label-col">Power / Battery</td>
+                <td class="val-col">72-Hour Mechanical Reserve</td>
+                <td class="val-col gold">30-Day Ultra-Capacity Lithium Cell</td>
+              </tr>
+              <tr>
+                <td class="label-col">Case Construction</td>
+                <td class="val-col">Surgical Grade 316L Stainless Steel</td>
+                <td class="val-col gold">Aerospace Grade-5 Brushed Titanium</td>
+              </tr>
+              <tr>
+                <td class="label-col">Glass Crystal</td>
+                <td class="val-col gold">Curved Sapphire Crystal with Anti-Glare</td>
+                <td class="val-col">Reinforced Flat Sapphire Crystal</td>
+              </tr>
+              <tr>
+                <td class="label-col">Water Resistance</td>
+                <td class="val-col gold">100 Metres / 10 ATM (Screw-down crown)</td>
+                <td class="val-col">50 Metres / 5 ATM (Splash Resistant)</td>
+              </tr>
+              <tr>
+                <td class="label-col">Case Diameter & Weight</td>
+                <td class="val-col">42mm · 162g (Solid Steel Links)</td>
+                <td class="val-col gold">44mm · 94g (Ultralight Titanium)</td>
+              </tr>
+              <tr>
+                <td class="label-col">Strap Material</td>
+                <td class="val-col">Integrated 3-Link Steel with Micro-Adjust</td>
+                <td class="val-col">Fluorocarbon Rubber + Quick-Release Pin</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Craftsmanship Video Showcase -->
+    <section class="craftsmanship-section" id="craftsmanship">
+      <div class="video-container">
+        <video id="craftsmanshipVideo" autoplay muted loop playsinline>
+          <source src="./WATCHES/pexels-vlada-karpovich-4452751-1920x1080-25fps.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="video-scrim"></div>
+      <div class="container">
+        <div class="craftsmanship-content">
+          <span class="craftsmanship-kicker">Atelier Process</span>
+          <h2 class="craftsmanship-title">Art of Micro-Mechanics</h2>
+          <p class="craftsmanship-desc">
+            More than 280 components working in harmonic synergy. Hand-assembled under cleanroom conditions in our Geneva atelier and tested against severe chronometric variations.
+          </p>
+          <div class="video-controls">
+            <button class="btn-primary" id="btnTogglePlayVideo">
+              <i class="fa-solid fa-pause" id="playIcon"></i>
+              <span id="playText">Pause Film</span>
+            </button>
+            <button class="btn-secondary" id="btnToggleAudioVideo">
+              <i class="fa-solid fa-volume-xmark" id="audioIcon"></i>
+              <span id="audioText">Unmute Audio</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Verified Reviews / Testimonials Carousel -->
+    <section class="section section-dark" id="testimonials">
+      <div class="container">
+        <div class="section-header" style="justify-content: center; text-align: center;">
+          <div class="section-header-left" style="max-width: 650px;">
+            <span class="section-subtitle">Verified Collector Verdicts</span>
+            <h2 class="section-title">Words from the Discerning</h2>
+            <p class="section-desc">Over 4,200 timepieces delivered worldwide with a 4.96 / 5.0 collector satisfaction rating.</p>
+          </div>
+        </div>
+
+        <div class="testimonials-wrapper">
+          <div class="testimonials-track" id="testimonialTrack">
+            <!-- Testimonial 1 -->
+            <article class="testimonial-card">
+              <div class="testimonial-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <blockquote class="testimonial-quote">
+                "The Chronotrigger 42mm rivals my Swiss pieces costing five times more. The weight, the tactile click of the chronograph pushers, and the anti-reflective sapphire are utterly spectacular."
+              </blockquote>
+              <div class="testimonial-author">
+                <img src="./WATCHES/portrait-01.png" alt="Julian Vance" class="testimonial-avatar" />
+                <div class="testimonial-info">
+                  <div class="testimonial-name">Julian Vance</div>
+                  <div class="testimonial-role">Architect & Watch Collector · London, UK</div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Testimonial 2 -->
+            <article class="testimonial-card">
+              <div class="testimonial-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <blockquote class="testimonial-quote">
+                "Ordered the Prestige Horizons in Rose Gold. The presentation box was velvet-lined mahogany with a chronometer certificate. The accuracy has stayed within +2 seconds a day."
+              </blockquote>
+              <div class="testimonial-author">
+                <img src="./WATCHES/portrait-02.png" alt="Marcus Sterling" class="testimonial-avatar" />
+                <div class="testimonial-info">
+                  <div class="testimonial-name">Marcus Sterling</div>
+                  <div class="testimonial-role">Private Wealth Advisor · Zurich, Switzerland</div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Testimonial 3 -->
+            <article class="testimonial-card">
+              <div class="testimonial-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <blockquote class="testimonial-quote">
+                "The Flare Glaciers sunglasses have the crispest lenses I’ve experienced on high alpine glacier trails. No distortion, zero glare, and comfortable beneath a helmet."
+              </blockquote>
+              <div class="testimonial-author">
+                <img src="./WATCHES/portrait-03.png" alt="Elena Rostova" class="testimonial-avatar" />
+                <div class="testimonial-info">
+                  <div class="testimonial-name">Elena Rostova</div>
+                  <div class="testimonial-role">Industrial Designer · Milan, Italy</div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Testimonial 4 -->
+            <article class="testimonial-card">
+              <div class="testimonial-stars">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <blockquote class="testimonial-quote">
+                "Customer concierge was extraordinary. Resized the bracelet before dispatch and provided tracking updates within two hours of payment. First-class luxury commerce."
+              </blockquote>
+              <div class="testimonial-author">
+                <img src="./WATCHES/person-1.png" alt="David Zhang" class="testimonial-avatar" />
+                <div class="testimonial-info">
+                  <div class="testimonial-name">David Zhang</div>
+                  <div class="testimonial-role">Creative Director · Singapore</div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="testimonials-dots" id="testimonialDots">
+            <span class="testimonial-dot active" data-index="0"></span>
+            <span class="testimonial-dot" data-index="1"></span>
+            <span class="testimonial-dot" data-index="2"></span>
+            <span class="testimonial-dot" data-index="3"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Trust & Service Pillars -->
+    <section class="section section-secondary">
+      <div class="container">
+        <div class="trust-grid">
+          <div class="trust-card">
+            <img src="./WATCHES/icon-delivery.png" alt="Express Delivery" class="trust-card-icon" />
+            <h3>Complimentary Express</h3>
+            <p>Air courier dispatch within 24 hours with full transit insurance and signature delivery.</p>
+          </div>
+          <div class="trust-card">
+            <img src="./WATCHES/icon-return.png" alt="Free Returns" class="trust-card-icon" />
+            <h3>30-Day Bespoke Returns</h3>
+            <p>Full satisfaction guarantee. Unworn pieces may be returned or exchanged with zero hassle.</p>
+          </div>
+          <div class="trust-card">
+            <img src="./WATCHES/icon-support.png" alt="Support" class="trust-card-icon" />
+            <h3>Horology Concierge</h3>
+            <p>Direct assistance from master watch specialists 24/7 for sizing, servicing, and styling.</p>
+          </div>
+          <div class="trust-card">
+            <img src="./WATCHES/icon-card.png" alt="Secure Payment" class="trust-card-icon" />
+            <h3>Encrypted Security</h3>
+            <p>PCI-DSS Level 1 256-bit SSL encrypted checkout supporting all major credit cards and wire.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. Newsletter Section -->
+    <section class="section section-dark">
+      <div class="container">
+        <div class="newsletter-card">
+          <div>
+            <span class="section-subtitle">Private Atelier Dispatch</span>
+            <h2 class="section-title" style="font-size: 2.4rem;">Receive New Releases First</h2>
+            <p class="section-desc">Join our private circle of collectors for confidential invitations to limited serial releases and horological journal essays.</p>
+          </div>
+          <div>
+            <form class="newsletter-form-flex" id="newsletterForm">
+              <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="Enter your email address" required />
+              <button type="submit" class="btn-primary">
+                <span>Subscribe</span>
+              </button>
+            </form>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem;">We respect your privacy. Unsubscribe anytime with one click.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 13. Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="brand-mark">
+            <span class="brand-title">CHRONO<span>·</span>ATELIER</span>
+            <span class="brand-subtitle">Haute Horlogerie & Accessories</span>
+          </a>
+          <p>Excellence forged in titanium, sapphire, and automatic movements. Every piece tells an enduring story of patience, passion, and time.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Timepieces</h4>
+          <ul class="footer-links">
+            <li><a href="#timepieces">Flyback Chronographs</a></li>
+            <li><a href="#timepieces">Automatic Calibres</a></li>
+            <li><a href="#timepieces">Deep Sea Divers</a></li>
+            <li><a href="#timepieces">Biometric Hybrids</a></li>
+            <li><a href="#spotlight">Flare Sunglasses</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Atelier Service</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="showConciergeModal()">Complimentary Sizing</a></li>
+            <li><a href="#" onclick="showConciergeModal()">Movement Servicing</a></li>
+            <li><a href="#" onclick="showConciergeModal()">Insured Shipping Info</a></li>
+            <li><a href="#" onclick="showConciergeModal()">Authenticity Guarantee</a></li>
+            <li><a href="#" onclick="showConciergeModal()">Warranty Registration</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Security</h4>
+          <ul class="footer-links">
+            <li><a href="#" onclick="showLegalModal('Privacy Policy')">Privacy Policy</a></li>
+            <li><a href="#" onclick="showLegalModal('Terms of Service')">Terms of Service</a></li>
+            <li><a href="#" onclick="showLegalModal('Cookie Preferences')">Cookie Preferences</a></li>
+            <li><a href="#" onclick="showLegalModal('Declaration of Conformity')">Swiss Conformity</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          <span>&copy; 2026 Chrono Atelier SA. All Rights Reserved. Master Watchmakers Since 2012.</span>
+        </div>
+        <div class="footer-socials">
+          <button class="footer-social-btn" title="Instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></button>
+          <button class="footer-social-btn" title="Twitter" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></button>
+          <button class="footer-social-btn" title="YouTube" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></button>
+          <button class="footer-social-btn" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 14. Slide-Over Cart Drawer -->
+  <div class="drawer-backdrop" id="cartBackdrop">
+    <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Shopping Bag">
+      <div class="cart-header">
+        <h3><i class="fa-solid fa-bag-shopping" style="color: var(--accent-gold);"></i> Shopping Bag</h3>
+        <button class="btn-close-drawer" id="btnCloseCart" aria-label="Close cart drawer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="cart-items-container" id="cartItemsContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div class="cart-footer" id="cartFooter">
+        <div class="promo-code-box">
+          <input type="text" class="promo-input" id="promoInput" placeholder="Promo: LUXURY10" />
+          <button class="promo-btn" id="btnApplyPromo">Apply</button>
+        </div>
+        <div class="cart-totals">
+          <div class="cart-totals-row">
+            <span>Subtotal</span>
+            <span class="tabular-nums" id="cartSubtotalText">$0.00</span>
+          </div>
+          <div class="cart-totals-row" id="promoDiscountRow" style="display:none; color: #10b981;">
+            <span>VIP Promotion (10%)</span>
+            <span class="tabular-nums" id="cartDiscountText">-$0.00</span>
+          </div>
+          <div class="cart-totals-row">
+            <span>Insured Express Shipping</span>
+            <span style="color: var(--accent-gold-light); font-weight: 600;">Complimentary</span>
+          </div>
+          <div class="cart-totals-row subtotal">
+            <span>Estimated Total</span>
+            <span class="tabular-nums" id="cartTotalText">$0.00</span>
+          </div>
+        </div>
+        <button class="btn-primary" style="width: 100%;" id="btnProceedCheckout">
+          <span>Proceed to Secure Checkout</span>
+          <i class="fa-solid fa-lock"></i>
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 15. Quick View Product Modal -->
+  <div class="modal-overlay" id="quickViewModal" role="dialog" aria-modal="true">
+    <div class="modal-content-card">
+      <button class="modal-close-btn" id="btnCloseQuickView" aria-label="Close modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="quickview-body" id="quickViewBody">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 16. Checkout Modal -->
+  <div class="modal-overlay" id="checkoutModal" role="dialog" aria-modal="true">
+    <div class="modal-content-card checkout-card" id="checkoutCard">
+      <button class="modal-close-btn" id="btnCloseCheckout" aria-label="Close checkout">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="checkoutStep1">
+        <span class="section-subtitle">Encrypted Dispatch</span>
+        <h2>Secure Order Checkout</h2>
+        <p style="font-size: 0.88rem; color: var(--text-secondary);">Please complete your delivery details for complimentary insured dispatch.</p>
+        
+        <form id="checkoutForm" onsubmit="handlePlaceOrder(event)">
+          <div class="checkout-form-grid">
+            <div class="checkout-form-group">
+              <label class="checkout-label" for="coFirstName">First Name</label>
+              <input type="text" id="coFirstName" class="checkout-input" placeholder="Alexander" required />
+            </div>
+            <div class="checkout-form-group">
+              <label class="checkout-label" for="coLastName">Last Name</label>
+              <input type="text" id="coLastName" class="checkout-input" placeholder="Wright" required />
+            </div>
+            <div class="checkout-form-group full">
+              <label class="checkout-label" for="coEmail">Email (For Tracking & Certificate)</label>
+              <input type="email" id="coEmail" class="checkout-input" placeholder="alexander@example.com" required />
+            </div>
+            <div class="checkout-form-group full">
+              <label class="checkout-label" for="coAddress">Street Address</label>
+              <input type="text" id="coAddress" class="checkout-input" placeholder="742 Evergreen Avenue, Suite 400" required />
+            </div>
+            <div class="checkout-form-group">
+              <label class="checkout-label" for="coCity">City</label>
+              <input type="text" id="coCity" class="checkout-input" placeholder="New York" required />
+            </div>
+            <div class="checkout-form-group">
+              <label class="checkout-label" for="coCountry">Country</label>
+              <select id="coCountry" class="checkout-input" style="background: var(--bg-card); color: var(--text-primary);">
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="CH">Switzerland</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="JP">Japan</option>
+                <option value="AE">United Arab Emirates</option>
+              </select>
+            </div>
+            <div class="checkout-form-group full">
+              <label class="checkout-label">Payment Method</label>
+              <div style="display: flex; gap: 1rem; margin-top: 0.25rem;">
+                <label style="flex: 1; padding: 0.75rem; border: 1px solid var(--border-gold); background: rgba(197, 160, 89, 0.08); border-radius: var(--radius-sm); font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                  <input type="radio" name="payMethod" value="card" checked />
+                  <span>Credit Card (Visa / MC / Amex)</span>
+                </label>
+                <label style="flex: 1; padding: 0.75rem; border: 1px solid var(--border-subtle); background: var(--bg-card); border-radius: var(--radius-sm); font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                  <input type="radio" name="payMethod" value="wire" />
+                  <span>Bank Wire / Concierge</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 0.78rem; color: var(--text-muted); display: block;">Total Amount to Authorize:</span>
+              <strong class="tabular-nums" style="font-size: 1.35rem; color: var(--accent-gold-light);" id="checkoutTotalAmount">$0.00</strong>
+            </div>
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-lock"></i> Authorize & Place Order
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Confirmation View -->
+      <div id="checkoutConfirmation" style="display: none; text-align: center; padding: 2rem 0;">
+        <i class="fa-solid fa-circle-check" style="font-size: 4rem; color: var(--accent-gold); margin-bottom: 1.5rem;"></i>
+        <span class="section-subtitle">ORDER CONFIRMED</span>
+        <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Thank You for Your Order</h2>
+        <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.5rem; font-size: 0.95rem;">
+          Your order has been recorded under reference <strong id="confirmedOrderNum" style="color: var(--accent-gold-light);">#CR-98421</strong>. A detailed certificate of authenticity and dispatch tracking will be sent to your email.
+        </p>
+        <button class="btn-primary" onclick="closeAllModals()">Continue Browsing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. Search Modal -->
+  <div class="modal-overlay" id="searchModal" role="dialog" aria-modal="true">
+    <div class="modal-content-card" style="max-width: 600px; padding: 2rem;">
+      <button class="modal-close-btn" id="btnCloseSearch" aria-label="Close search">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 style="font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 1rem;">Search Catalog</h3>
+      <div style="position: relative; margin-bottom: 1.5rem;">
+        <input type="text" id="searchInput" class="checkout-input" style="width: 100%; padding-left: 2.75rem;" placeholder="Search by name, calibre, or material (e.g. Titanium, Chronotrigger, Sapphire)..." />
+        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+      </div>
+      <div id="searchResults" style="max-height: 340px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;">
+        <!-- Search results injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 18. Toast Notifications Stack -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
 </html>

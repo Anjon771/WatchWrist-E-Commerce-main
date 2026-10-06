@@ -1,0 +1,8 @@
+{
+  "name": "Watch Wrist - Luxury Timepieces & Accessories",
+  "description": "Watch Wrist - Luxury timepieces, sunglasses, and stylish accessories.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
