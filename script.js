@@ -198,21 +198,57 @@ const CATALOG = [
   }
 ];
 
-// 2. Global State
+// 2. Multi-Currency Engine
+const CURRENCIES = {
+  USD: { symbol: '$', rate: 1.0, decimals: 2 },
+  EUR: { symbol: '€', rate: 0.92, decimals: 2 },
+  GBP: { symbol: '£', rate: 0.78, decimals: 2 },
+  CHF: { symbol: 'CHF ', rate: 0.89, decimals: 2 },
+  JPY: { symbol: '¥', rate: 154.0, decimals: 0 }
+};
+let currentCurrency = 'USD';
+
+function formatPrice(usdAmount) {
+  const curr = CURRENCIES[currentCurrency] || CURRENCIES.USD;
+  const converted = usdAmount * curr.rate;
+  if (curr.decimals === 0) {
+    return `${curr.symbol}${Math.round(converted).toLocaleString()}`;
+  }
+  return `${curr.symbol}${converted.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+// 3. Global State
 let cart = [
   { id: 'watch-01', qty: 1 } // Pre-seed 1 item for immediate delight
 ];
+let customCartItems = {}; // for bespoke builds
 let wishlist = new Set();
 let activeFilter = 'all';
-let promoDiscount = 0; // 0.10 for LUXURY10
+let promoDiscount = 0; // percentage discount (e.g. 0.10)
+let promoFlatDiscount = 0; // flat discount amount in USD
+let isGiftWrapped = false;
 let sliderIndex = 0;
 let testimonialIndex = 0;
 let currentHeroModelId = 'watch-01';
 
+// Bespoke Configurator State
+let configState = {
+  caseVal: 'titanium',
+  casePrice: 650,
+  caseImg: './WATCHES/product-14.png',
+  dialVal: 'blue',
+  dialName: 'Sunray Midnight Blue',
+  dialExtra: 0,
+  strapVal: 'leather',
+  strapName: 'Tuscan Calfskin',
+  strapExtra: 0,
+  engraving: ''
+};
+
 const HERO_MODELS = {
   'watch-01': {
     name: 'Chronotrigger 42mm',
-    price: '$649.99',
+    price: 649.99,
     calibreBadge: 'Calibre 4130 Flyback',
     image: './WATCHES/product-14.png',
     freq: '28,800 VPH',
@@ -228,7 +264,7 @@ const HERO_MODELS = {
   },
   'watch-02': {
     name: 'Prestige Horizons',
-    price: '$719.49',
+    price: 719.49,
     calibreBadge: 'Calibre 8900 Automatic',
     image: './WATCHES/product-13.png',
     freq: '25,200 VPH',
@@ -244,7 +280,7 @@ const HERO_MODELS = {
   },
   'watch-03': {
     name: 'Dynachrono Aurum',
-    price: '$659.89',
+    price: 659.89,
     calibreBadge: 'Calibre High-Beat Aurum',
     image: './WATCHES/product-11.png',
     freq: '36,000 VPH',
@@ -257,10 +293,26 @@ const HERO_MODELS = {
       { title: 'Triple Subdial Layout', desc: 'Precision 30-minute, 12-hour, and small seconds registers with circular graining.' },
       { title: 'Sculpted Solid Links', desc: 'Articulated solid links with micro-chamfered edges and concealed security clasp.' }
     ]
+  },
+  'watch-07': {
+    name: 'ApexGuard Diver 300M',
+    price: 579.90,
+    calibreBadge: 'Calibre 2824-2 Diver',
+    image: './WATCHES/product-07.png',
+    freq: '28,800 VPH',
+    reserve: '42 Hours',
+    wr: '300 Metres',
+    cert: 'ISO 6425 Saturation',
+    desc: 'Engineered for abyssal expeditions. Features a 120-click unidirectional ceramic bezel, automatic helium escape valve, and high-intensity SuperLuminova BGW9.',
+    hotspots: [
+      { title: 'Ceramic Diver Bezel', desc: '120-click unidirectional rotation with luminescent 15-minute countdown scale.' },
+      { title: 'Helium Decompression Valve', desc: 'Automated pressure equalization valve rated to 30 ATM saturation depths.' },
+      { title: '4mm Domed Sapphire', desc: 'Reinforced pressure-resistant crystal engineered for abyssal exploration.' }
+    ]
   }
 };
 
-// 3. Document Ready Initialization
+// 4. Document Ready Initialization
 document.addEventListener('DOMContentLoaded', () => {
   initCountdown();
   initHeaderScroll();
@@ -270,11 +322,54 @@ document.addEventListener('DOMContentLoaded', () => {
   initVideoControls();
   initModalsAndEvents();
   initSearch();
+  initWishlist();
+  renderConfiguratorUI();
   renderCart();
   renderWishlistCount();
+  updateAllPricesAcrossPage();
 });
 
-// Hero Section Interactive Logic
+// 5. Currency Handling
+function handleCurrencyChange(newCurrency) {
+  if (!CURRENCIES[newCurrency]) return;
+  currentCurrency = newCurrency;
+  updateAllPricesAcrossPage();
+  renderCart();
+  renderConfiguratorUI();
+  showToast(`Currency updated to ${newCurrency} (${CURRENCIES[newCurrency].symbol})`, 'fa-solid fa-coins');
+}
+
+function updateAllPricesAcrossPage() {
+  // Hero price
+  const heroModel = HERO_MODELS[currentHeroModelId];
+  if (heroModel) {
+    const heroPriceEl = document.getElementById('heroPriceText');
+    if (heroPriceEl) heroPriceEl.textContent = formatPrice(heroModel.price);
+  }
+
+  // Catalog Cards
+  CATALOG.forEach(p => {
+    const card = document.querySelector(`.product-card[data-id="${p.id}"]`);
+    if (card) {
+      const priceEl = card.querySelector('.product-price');
+      if (priceEl) priceEl.textContent = formatPrice(p.price);
+      const oldPriceEl = card.querySelector('.product-price-old');
+      if (oldPriceEl && p.oldPrice) oldPriceEl.textContent = formatPrice(p.oldPrice);
+    }
+  });
+
+  // Spotlight of week
+  const spotPrice = document.querySelector('.spotlight-price');
+  if (spotPrice) spotPrice.textContent = formatPrice(185.00);
+
+  // Comparison module
+  const compBox1 = document.querySelector('.compare-product-box:nth-child(2) p');
+  if (compBox1) compBox1.textContent = formatPrice(649.99);
+  const compBox2 = document.querySelector('.compare-product-box:nth-child(3) p');
+  if (compBox2) compBox2.textContent = formatPrice(739.20);
+}
+
+// 6. Hero Section Interactive Logic
 function initHeroSection() {
   const switcher = document.getElementById('heroModelSwitcher');
   const watchCard = document.getElementById('heroWatchDisplayCard');
@@ -321,6 +416,65 @@ function initHeroSection() {
   document.addEventListener('click', () => {
     hotspots.forEach(s => s.classList.remove('active'));
   });
+
+  // Background Scene Switcher
+  const bgButtons = document.querySelectorAll('.bg-switch-btn');
+  const heroSection = document.getElementById('hero');
+  bgButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      bgButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const bgUrl = btn.dataset.bg;
+      if (heroSection) {
+        heroSection.style.backgroundImage = `url('${bgUrl}')`;
+        showToast(`Background scene: ${btn.textContent}`, 'fa-regular fa-image');
+      }
+    });
+  });
+
+  // Clicking on Hero in Scenic Mode exits scenic mode
+  if (heroSection) {
+    heroSection.addEventListener('click', (e) => {
+      if (heroSection.classList.contains('scenic-mode')) {
+        // If clicking inside the exit banner button, let the button handle it
+        if (!e.target.closest('.btn-scenic-exit') && !e.target.closest('#heroBgSelector')) {
+          toggleScenicMode(false);
+        }
+      }
+    });
+  }
+}
+
+function toggleScenicMode(enable) {
+  const hero = document.getElementById('hero');
+  const btnScenic = document.getElementById('btnScenicMode');
+  if (!hero) return;
+
+  if (enable) {
+    hero.classList.add('scenic-mode');
+    btnScenic?.classList.add('active');
+    showToast('Scenic Mode enabled — Enjoy the full horological background', 'fa-solid fa-expand');
+  } else {
+    hero.classList.remove('scenic-mode');
+    btnScenic?.classList.remove('active');
+    showToast('Resumed luxury storefront', 'fa-solid fa-compress');
+  }
+}
+
+function toggleEnhanceClarity() {
+  const hero = document.getElementById('hero');
+  const btnClarity = document.getElementById('btnEnhanceClarity');
+  if (!hero) return;
+
+  const isEnhanced = hero.classList.toggle('enhanced-clarity');
+  btnClarity?.classList.toggle('active', isEnhanced);
+
+  if (isEnhanced) {
+    showToast('Vivid Mode active: Maximum background brightness and clarity', 'fa-solid fa-sun');
+  } else {
+    showToast('Standard cinematic illumination restored', 'fa-regular fa-moon');
+  }
 }
 
 function switchHeroModel(modelId) {
@@ -350,7 +504,7 @@ function switchHeroModel(modelId) {
     }, 180);
   }
 
-  if (priceText) priceText.textContent = model.price;
+  if (priceText) priceText.textContent = formatPrice(model.price);
   if (descText) descText.textContent = model.desc;
   if (calibreBadge) calibreBadge.textContent = model.calibreBadge;
   if (telemFreq) telemFreq.textContent = model.freq;
@@ -382,41 +536,7 @@ function inspectCurrentHeroWatch() {
   openQuickView(currentHeroModelId);
 }
 
-// 4. Countdown Timer Engine
-function initCountdown() {
-  const countdownEl = document.getElementById('countdown');
-  if (!countdownEl) return;
-
-  // 14 days from initial boot
-  const targetTime = Date.now() + (14 * 24 * 60 * 60 * 1000) + (18 * 60 * 60 * 1000) + (35 * 60 * 1000);
-
-  setInterval(() => {
-    const diff = targetTime - Date.now();
-    if (diff <= 0) {
-      countdownEl.textContent = 'Offer Renewed';
-      return;
-    }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((diff % 1000) / 1000);
-    countdownEl.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
-  }, 1000);
-}
-
-// 5. Header Scroll Effect
-function initHeaderScroll() {
-  const header = document.getElementById('siteHeader');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  }, { passive: true });
-}
-
-// 6. Timepiece Slider & Category Filtering
+// 7. Timepiece Slider & Category Filtering
 function initSlider() {
   const track = document.getElementById('sliderTrack');
   const prevBtn = document.getElementById('sliderPrev');
@@ -489,68 +609,129 @@ function initSlider() {
   window.addEventListener('resize', updateSliderPosition, { passive: true });
 }
 
-// 7. Testimonials Carousel
-function initTestimonials() {
-  const track = document.getElementById('testimonialTrack');
-  const dots = document.querySelectorAll('.testimonial-dot');
-  if (!track || dots.length === 0) return;
+// Sorting Functionality
+function handleCatalogSort(criteria) {
+  const track = document.getElementById('sliderTrack');
+  if (!track) return;
 
-  const goToSlide = (idx) => {
-    testimonialIndex = idx;
-    track.style.transform = `translateX(-${idx * 100}%)`;
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === idx);
-    });
-  };
+  const cards = Array.from(track.querySelectorAll('.product-card'));
 
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const idx = parseInt(dot.dataset.index, 10);
-      goToSlide(idx);
-    });
+  cards.sort((a, b) => {
+    const idA = a.dataset.id;
+    const idB = b.dataset.id;
+    const prodA = CATALOG.find(p => p.id === idA);
+    const prodB = CATALOG.find(p => p.id === idB);
+    if (!prodA || !prodB) return 0;
+
+    if (criteria === 'price-asc') {
+      return prodA.price - prodB.price;
+    } else if (criteria === 'price-desc') {
+      return prodB.price - prodA.price;
+    } else if (criteria === 'reserve') {
+      const resA = parseInt(prodA.specs.powerReserve) || 0;
+      const resB = parseInt(prodB.specs.powerReserve) || 0;
+      return resB - resA;
+    }
+    return 0; // featured default
   });
 
-  // Auto Advance every 7 seconds
-  setInterval(() => {
-    const nextIdx = (testimonialIndex + 1) % dots.length;
-    goToSlide(nextIdx);
-  }, 7000);
+  cards.forEach(card => track.appendChild(card));
+  sliderIndex = 0;
+  track.style.transform = 'translateX(0px)';
+  showToast(`Catalog sorted by ${criteria}`, 'fa-solid fa-arrow-down-short-wide');
 }
 
-// 8. Video Player Controls
-function initVideoControls() {
-  const video = document.getElementById('craftsmanshipVideo');
-  const btnPlay = document.getElementById('btnTogglePlayVideo');
-  const playIcon = document.getElementById('playIcon');
-  const playText = document.getElementById('playText');
-  const btnAudio = document.getElementById('btnToggleAudioVideo');
-  const audioIcon = document.getElementById('audioIcon');
-  const audioText = document.getElementById('audioText');
+// 8. Atelier Bespoke Configurator Engine
+function selectConfigOption(btn) {
+  const type = btn.dataset.type;
+  const parentGroup = btn.parentElement;
+  parentGroup.querySelectorAll('.config-pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 
-  if (!video) return;
+  if (type === 'case') {
+    configState.caseVal = btn.dataset.val;
+    configState.casePrice = parseFloat(btn.dataset.price) || 650;
+    configState.caseImg = btn.dataset.img || './WATCHES/product-14.png';
+    const label = document.getElementById('cfgCaseLabel');
+    if (label) label.textContent = `${btn.textContent} ($${configState.casePrice})`;
+  } else if (type === 'dial') {
+    configState.dialVal = btn.dataset.val;
+    configState.dialName = btn.dataset.name || btn.textContent;
+    configState.dialExtra = parseFloat(btn.dataset.extra) || 0;
+    const label = document.getElementById('cfgDialLabel');
+    if (label) label.textContent = configState.dialName;
+  } else if (type === 'strap') {
+    configState.strapVal = btn.dataset.val;
+    configState.strapName = btn.dataset.name || btn.textContent;
+    configState.strapExtra = parseFloat(btn.dataset.extra) || 0;
+    const label = document.getElementById('cfgStrapLabel');
+    if (label) label.textContent = configState.strapName;
+  }
 
-  btnPlay?.addEventListener('click', () => {
-    if (video.paused) {
-      video.play();
-      playIcon.className = 'fa-solid fa-pause';
-      playText.textContent = 'Pause Film';
+  renderConfiguratorUI();
+}
+
+function updateEngravingBadge(val) {
+  configState.engraving = val.trim();
+  const badge = document.getElementById('cfgBadgeEngraving');
+  if (badge) {
+    if (configState.engraving) {
+      badge.textContent = `"${configState.engraving}"`;
+      badge.classList.add('gold');
     } else {
-      video.pause();
-      playIcon.className = 'fa-solid fa-play';
-      playText.textContent = 'Resume Film';
+      badge.textContent = 'No Engraving';
+      badge.classList.remove('gold');
     }
-  });
+  }
+}
 
-  btnAudio?.addEventListener('click', () => {
-    video.muted = !video.muted;
-    if (video.muted) {
-      audioIcon.className = 'fa-solid fa-volume-xmark';
-      audioText.textContent = 'Unmute Audio';
-    } else {
-      audioIcon.className = 'fa-solid fa-volume-high';
-      audioText.textContent = 'Mute Audio';
-    }
-  });
+function renderConfiguratorUI() {
+  const imgEl = document.getElementById('configPreviewImg');
+  if (imgEl && configState.caseImg) {
+    imgEl.src = configState.caseImg;
+  }
+
+  const badgeCase = document.getElementById('cfgBadgeCase');
+  const badgeDial = document.getElementById('cfgBadgeDial');
+  const badgeStrap = document.getElementById('cfgBadgeStrap');
+
+  if (badgeCase) badgeCase.textContent = configState.caseVal.toUpperCase();
+  if (badgeDial) badgeDial.textContent = configState.dialName;
+  if (badgeStrap) badgeStrap.textContent = configState.strapName;
+
+  const total = configState.casePrice + configState.dialExtra + configState.strapExtra;
+  const totalEl = document.getElementById('cfgTotalPrice');
+  if (totalEl) totalEl.textContent = formatPrice(total);
+}
+
+function addCustomConfigToCart() {
+  const total = configState.casePrice + configState.dialExtra + configState.strapExtra;
+  const customId = 'bespoke-' + Date.now();
+  const engraveText = configState.engraving ? ` · Engraved "${configState.engraving}"` : '';
+
+  const bespokeProduct = {
+    id: customId,
+    name: `Bespoke ${configState.caseVal.toUpperCase()} Atelier Timepiece`,
+    kicker: 'Custom Atelier Commission',
+    category: 'bespoke',
+    price: total,
+    image: configState.caseImg,
+    badge: 'Custom Commission',
+    specs: {
+      movement: 'Calibre 4130 Custom Escapement',
+      case: configState.caseVal.toUpperCase(),
+      diameter: '42mm · Custom Specification',
+      crystal: 'Sapphire Crystal',
+      waterResist: '100m / 10 ATM',
+      strap: configState.strapName,
+      powerReserve: '72 Hours'
+    },
+    description: `Hand-assembled bespoke piece featuring ${configState.dialName} dial and ${configState.strapName}${engraveText}.`
+  };
+
+  CATALOG.push(bespokeProduct);
+  addToCart(customId, 1);
+  showToast('Custom bespoke commission added to bag!', 'fa-solid fa-gem');
 }
 
 // 9. Shopping Cart Operations & Drawer
@@ -591,6 +772,14 @@ function updateCartQty(productId, delta) {
   }
 }
 
+function toggleGiftWrap(checked) {
+  isGiftWrapped = checked;
+  renderCart();
+  if (checked) {
+    showToast('Complimentary wax-sealed gift packaging selected!', 'fa-solid fa-gift');
+  }
+}
+
 function renderCart() {
   const container = document.getElementById('cartItemsContainer');
   const badge = document.getElementById('cartBadgeCount');
@@ -618,22 +807,22 @@ function renderCart() {
 
   if (footer) footer.style.display = 'block';
 
-  let subtotal = 0;
+  let subtotalUSD = 0;
   let itemsHtml = '';
 
   cart.forEach(item => {
     const prod = CATALOG.find(p => p.id === item.id);
     if (!prod) return;
 
-    const linePrice = prod.price * item.qty;
-    subtotal += linePrice;
+    const linePriceUSD = prod.price * item.qty;
+    subtotalUSD += linePriceUSD;
 
     itemsHtml += `
       <div class="cart-item-row">
         <img src="${prod.image}" alt="${prod.name}" class="cart-item-img" />
         <div class="cart-item-details">
           <h4 class="cart-item-title">${prod.name}</h4>
-          <div class="cart-item-price tabular-nums">$${prod.price.toFixed(2)}</div>
+          <div class="cart-item-price tabular-nums">${formatPrice(prod.price)}</div>
           <div class="cart-item-controls">
             <div class="qty-stepper">
               <button class="qty-btn" onclick="updateCartQty('${prod.id}', -1)">-</button>
@@ -651,22 +840,28 @@ function renderCart() {
 
   container.innerHTML = itemsHtml;
 
-  const discountAmount = subtotal * promoDiscount;
-  const finalTotal = subtotal - discountAmount;
-
-  if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  if (totalEl) totalEl.textContent = `$${finalTotal.toFixed(2)}`;
-
+  let discountUSD = 0;
   if (promoDiscount > 0) {
+    discountUSD = subtotalUSD * promoDiscount;
+  } else if (promoFlatDiscount > 0) {
+    discountUSD = Math.min(promoFlatDiscount, subtotalUSD);
+  }
+
+  const finalTotalUSD = Math.max(0, subtotalUSD - discountUSD);
+
+  if (subtotalEl) subtotalEl.textContent = formatPrice(subtotalUSD);
+  if (totalEl) totalEl.textContent = formatPrice(finalTotalUSD);
+
+  if (discountUSD > 0) {
     if (discountRow) discountRow.style.display = 'flex';
-    if (discountEl) discountEl.textContent = `-$${discountAmount.toFixed(2)}`;
+    if (discountEl) discountEl.textContent = `-${formatPrice(discountUSD)}`;
   } else {
     if (discountRow) discountRow.style.display = 'none';
   }
 
-  // Update checkout modal total as well
+  // Update checkout modal total
   const coTotal = document.getElementById('checkoutTotalAmount');
-  if (coTotal) coTotal.textContent = `$${finalTotal.toFixed(2)}`;
+  if (coTotal) coTotal.textContent = formatPrice(finalTotalUSD);
 }
 
 function openCartDrawer() {
@@ -696,9 +891,9 @@ function openQuickView(productId) {
       <h2>${prod.name}</h2>
       <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1rem;">
         <span class="tabular-nums" style="font-family: var(--font-mono); font-size: 1.85rem; font-weight: 700; color: var(--accent-gold-light);">
-          $${prod.price.toFixed(2)}
+          ${formatPrice(prod.price)}
         </span>
-        ${prod.oldPrice ? `<span class="tabular-nums" style="font-size: 1rem; color: var(--text-muted); text-decoration: line-through;">$${prod.oldPrice.toFixed(2)}</span>` : ''}
+        ${prod.oldPrice ? `<span class="tabular-nums" style="font-size: 1rem; color: var(--text-muted); text-decoration: line-through;">${formatPrice(prod.oldPrice)}</span>` : ''}
       </div>
 
       <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;">
@@ -734,7 +929,7 @@ function openQuickView(productId) {
 
       <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
         <button class="btn-primary" style="flex: 1;" onclick="addToCart('${prod.id}'); closeAllModals();">
-          <i class="fa-solid fa-bag-shopping"></i> Add to Bag — $${prod.price.toFixed(2)}
+          <i class="fa-solid fa-bag-shopping"></i> Add to Bag — ${formatPrice(prod.price)}
         </button>
         <button class="btn-card-quickview" style="width: 46px; height: 46px;" onclick="toggleWishlist('${prod.id}', this)" title="Wishlist">
           <i class="fa-regular fa-heart"></i>
@@ -747,7 +942,12 @@ function openQuickView(productId) {
   document.body.style.overflow = 'hidden';
 }
 
-// 11. Wishlist Operations
+// 11. Wishlist Operations & Dedicated Modal
+function initWishlist() {
+  document.getElementById('btnWishlist')?.addEventListener('click', openWishlistModal);
+  document.getElementById('btnCloseWishlistModal')?.addEventListener('click', closeAllModals);
+}
+
 function toggleWishlist(productId, btnElement) {
   const prod = CATALOG.find(p => p.id === productId);
   if (!prod) return;
@@ -771,6 +971,46 @@ function renderWishlistCount() {
   if (!badge) return;
   badge.textContent = wishlist.size;
   badge.style.display = wishlist.size > 0 ? 'flex' : 'none';
+}
+
+function openWishlistModal() {
+  const listEl = document.getElementById('wishlistItemsList');
+  if (!listEl) return;
+
+  if (wishlist.size === 0) {
+    listEl.innerHTML = `
+      <div style="text-align: center; padding: 2.5rem 1rem; color: var(--text-muted);">
+        <i class="fa-regular fa-heart" style="font-size: 2.5rem; margin-bottom: 1rem; display: block; opacity: 0.4;"></i>
+        <h4>Your Wishlist is Empty</h4>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Click the heart icon on any chronograph or accessory to curate your private acquisition list.</p>
+      </div>
+    `;
+  } else {
+    let html = '';
+    wishlist.forEach(id => {
+      const prod = CATALOG.find(p => p.id === id);
+      if (!prod) return;
+      html += `
+        <div style="display: flex; align-items: center; gap: 1.25rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);">
+          <img src="${prod.image}" alt="${prod.name}" style="width: 55px; height: 55px; object-fit: contain;" />
+          <div style="flex: 1;">
+            <h4 style="font-family: var(--font-display); font-size: 0.95rem; color: var(--text-primary);">${prod.name}</h4>
+            <div class="tabular-nums" style="font-size: 0.95rem; color: var(--accent-gold-light); font-weight: 600;">${formatPrice(prod.price)}</div>
+          </div>
+          <button class="btn-card-add" onclick="addToCart('${prod.id}'); closeAllModals();">
+            <i class="fa-solid fa-bag-shopping"></i> Move to Bag
+          </button>
+          <button class="btn-remove-item" onclick="wishlist.delete('${prod.id}'); renderWishlistCount(); openWishlistModal();" title="Remove">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      `;
+    });
+    listEl.innerHTML = html;
+  }
+
+  document.getElementById('wishlistModal')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 // 12. Checkout & Order Placement Flow
@@ -830,14 +1070,34 @@ function initSearch() {
           <span style="font-size: 0.74rem; color: var(--text-muted);">${prod.kicker}</span>
         </div>
         <div class="tabular-nums" style="font-weight: 600; color: var(--accent-gold-light); font-size: 0.95rem;">
-          $${prod.price.toFixed(2)}
+          ${formatPrice(prod.price)}
         </div>
       </div>
     `).join('');
   });
 }
 
-// 14. Toast Notification Manager
+// 14. Private Concierge Consultation Booking
+function showConciergeModal() {
+  document.getElementById('conciergeBookingModal')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function handleBookConcierge(event) {
+  event.preventDefault();
+  const name = document.getElementById('conciergeName')?.value || 'Client';
+  const code = '#VIP-' + Math.floor(10000 + Math.random() * 90000);
+
+  closeAllModals();
+  showToast(`Appointment confirmed for ${name}. Concierge Code: ${code}`, 'fa-solid fa-calendar-check');
+  document.getElementById('conciergeForm')?.reset();
+}
+
+function showLegalModal(title) {
+  showToast(`${title} certified under Swiss Horological Standards 2026.`, 'fa-solid fa-file-contract');
+}
+
+// 15. Toast Notification Manager
 function showToast(message, icon = 'fa-solid fa-info') {
   const container = document.getElementById('toastContainer');
   if (!container) return;
@@ -859,7 +1119,104 @@ function showToast(message, icon = 'fa-solid fa-info') {
   }, 3500);
 }
 
-// 15. Modal Events & Listeners
+// 16. Countdown Timer Engine
+function initCountdown() {
+  const countdownEl = document.getElementById('countdown');
+  if (!countdownEl) return;
+
+  const targetTime = Date.now() + (14 * 24 * 60 * 60 * 1000) + (18 * 60 * 60 * 1000) + (35 * 60 * 1000);
+
+  setInterval(() => {
+    const diff = targetTime - Date.now();
+    if (diff <= 0) {
+      countdownEl.textContent = 'Offer Renewed';
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % 1000) / 1000);
+    countdownEl.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+  }, 1000);
+}
+
+// 17. Header Scroll Effect
+function initHeaderScroll() {
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  }, { passive: true });
+}
+
+// 18. Testimonials Carousel
+function initTestimonials() {
+  const track = document.getElementById('testimonialTrack');
+  const dots = document.querySelectorAll('.testimonial-dot');
+  if (!track || dots.length === 0) return;
+
+  const goToSlide = (idx) => {
+    testimonialIndex = idx;
+    track.style.transform = `translateX(-${idx * 100}%)`;
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === idx);
+    });
+  };
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.dataset.index, 10);
+      goToSlide(idx);
+    });
+  });
+
+  // Auto Advance every 7 seconds
+  setInterval(() => {
+    const nextIdx = (testimonialIndex + 1) % dots.length;
+    goToSlide(nextIdx);
+  }, 7000);
+}
+
+// 19. Video Player Controls
+function initVideoControls() {
+  const video = document.getElementById('craftsmanshipVideo');
+  const btnPlay = document.getElementById('btnTogglePlayVideo');
+  const playIcon = document.getElementById('playIcon');
+  const playText = document.getElementById('playText');
+  const btnAudio = document.getElementById('btnToggleAudioVideo');
+  const audioIcon = document.getElementById('audioIcon');
+  const audioText = document.getElementById('audioText');
+
+  if (!video) return;
+
+  btnPlay?.addEventListener('click', () => {
+    if (video.paused) {
+      video.play();
+      playIcon.className = 'fa-solid fa-pause';
+      playText.textContent = 'Pause Film';
+    } else {
+      video.pause();
+      playIcon.className = 'fa-solid fa-play';
+      playText.textContent = 'Resume Film';
+    }
+  });
+
+  btnAudio?.addEventListener('click', () => {
+    video.muted = !video.muted;
+    if (video.muted) {
+      audioIcon.className = 'fa-solid fa-volume-xmark';
+      audioText.textContent = 'Unmute Audio';
+    } else {
+      audioIcon.className = 'fa-solid fa-volume-high';
+      audioText.textContent = 'Mute Audio';
+    }
+  });
+}
+
+// 20. Modal Events & Listeners
 function initModalsAndEvents() {
   // Cart Drawer
   document.getElementById('btnOpenCart')?.addEventListener('click', openCartDrawer);
@@ -875,7 +1232,7 @@ function initModalsAndEvents() {
   // Quick View
   document.getElementById('btnCloseQuickView')?.addEventListener('click', closeAllModals);
 
-  // Search
+  // Search Modal
   document.getElementById('btnOpenSearch')?.addEventListener('click', () => {
     document.getElementById('searchModal')?.classList.add('open');
     document.getElementById('searchInput')?.focus();
@@ -883,14 +1240,8 @@ function initModalsAndEvents() {
   });
   document.getElementById('btnCloseSearch')?.addEventListener('click', closeAllModals);
 
-  // Wishlist Icon in Top Bar
-  document.getElementById('btnWishlist')?.addEventListener('click', () => {
-    if (wishlist.size === 0) {
-      showToast('Your wishlist is empty. Click the heart icon on any watch!', 'fa-regular fa-heart');
-    } else {
-      showToast(`You have ${wishlist.size} timepiece(s) saved.`, 'fa-solid fa-heart');
-    }
-  });
+  // Concierge Modal
+  document.getElementById('btnCloseConciergeModal')?.addEventListener('click', closeAllModals);
 
   // Promo Code
   document.getElementById('btnApplyPromo')?.addEventListener('click', () => {
@@ -898,8 +1249,14 @@ function initModalsAndEvents() {
     const code = input?.value.trim().toUpperCase();
     if (code === 'LUXURY10') {
       promoDiscount = 0.10;
+      promoFlatDiscount = 0;
       renderCart();
       showToast('VIP Promo applied: 10% discount deducted!', 'fa-solid fa-tag');
+    } else if (code === 'WELCOME50') {
+      promoFlatDiscount = 50;
+      promoDiscount = 0;
+      renderCart();
+      showToast('Welcome Privilege applied: $50 credit deducted!', 'fa-solid fa-tag');
     } else {
       showToast('Invalid or expired promotional code.', 'fa-solid fa-circle-exclamation');
     }
@@ -909,7 +1266,7 @@ function initModalsAndEvents() {
   document.getElementById('newsletterForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById('newsletterEmail')?.value;
-    showToast(`Privilege invitation sent to ${email}`, 'fa-solid fa-envelope');
+    showToast(`Privilege invitation dispatched to ${email}`, 'fa-solid fa-envelope');
     e.target.reset();
   });
 
@@ -918,6 +1275,7 @@ function initModalsAndEvents() {
     if (e.key === 'Escape') {
       closeAllModals();
       closeCartDrawer();
+      toggleScenicMode(false);
     }
   });
 
@@ -938,6 +1296,7 @@ function initModalsAndEvents() {
       nav.style.background = 'var(--bg-secondary)';
       nav.style.padding = '1.5rem';
       nav.style.borderBottom = '1px solid var(--border-medium)';
+      nav.style.zIndex = '999';
     }
   });
 }
@@ -945,13 +1304,4 @@ function initModalsAndEvents() {
 function closeAllModals() {
   document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
   document.body.style.overflow = '';
-}
-
-// 16. Concierge & Legal Modals
-function showConciergeModal() {
-  showToast('Horological Concierge connected. Direct line: +41 22 710 8800', 'fa-solid fa-headset');
-}
-
-function showLegalModal(title) {
-  showToast(`${title} certified under Swiss Horological Standards 2026.`, 'fa-solid fa-file-contract');
 }
